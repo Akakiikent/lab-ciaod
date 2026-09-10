@@ -1,0 +1,10 @@
+texts_natural.txt	ru tupis
+texts_small_alphabet.txt	daeabeaebeggaacfcdbg
+texts_natural.txt	titaba vove resuku kesobakul
+texts_small_alphabet.txt	dfdd
+texts_natural.txt	u tekovonora povi pudi
+texts_small_alphabet.txt	dgdbcbdedbbcbedaeee
+texts_natural.txt	alu tokudinana kokeb
+texts_small_alphabet.txt	dba
+texts_natural.txt	venelok
+texts_small_alphabet.txt	bggebdbdfagbfgbef
