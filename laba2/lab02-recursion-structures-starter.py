@@ -17,8 +17,6 @@ import random
 import statistics
 import time
 
-from six import moves
-
 # ---------------------------------------------------------------------------
 # 1. Рекурсивные функции (счётчик вызовов — для сравнения наивной рекурсии
 #    и мемоизации; результаты счётчика включаются в отчёт)
@@ -86,6 +84,7 @@ class DynamicArray:
         self._capacity = self.INITIAL_CAPACITY
         self._size = 0
         self._buffer: list = [None] * self._capacity  # «сырая» память
+        self.copies = 0  # счётчик копирований при росте
 
     def __len__(self) -> int:
         return self._size
@@ -112,6 +111,10 @@ class DynamicArray:
         self._size += 1
 
 
+    def _check(self, index: int) -> None:
+        if not 0 <= index < self._size:
+            raise IndexError("индекс вне диапазона")
+
     def get(self, index: int):
         self._check(index)
         return self._buffer[index]
@@ -136,7 +139,6 @@ class DynamicArray:
 
 
 class Stack:
-    """Стек (LIFO) на базе DynamicArray."""
 
     def __init__(self) -> None:
         self._data = DynamicArray()
@@ -149,11 +151,12 @@ class Stack:
 
     def pop(self):
         if len(self._data) == 0:
-            raise IndexError('pop из пустого стэка')
+            raise IndexError('pop из пустого стека')
+        return self._data.pop_last()
 
     def peek(self):
         if len(self._data) == 0:
-            raise IndexError('pekk пустого стека')
+            raise IndexError('peek пустого стека')
         return self._data.get(len(self._data)-1)
 
 
@@ -213,8 +216,7 @@ class Deque:
         self._size -= 1
         return node.value
 
-
-def pop_back(self):
+    def pop_back(self):
         if self._tail is None:
             raise IndexError("pop_back из пустого дека")
         node = self._tail
@@ -347,9 +349,6 @@ def run_benchmarks(seed: int) -> None:
         t_list = bench(inserts_front_list, n)
         t_deque = bench(inserts_front_deque, n)
         print(f"  n={n:>7}  list={t_list:.6f} c  deque={t_deque:.6f} c")
-    # TODO: снять аналогичные замеры для push_front своего Deque;
-    # TODO: построить график t/n от n для append и включить его в отчёт;
-    # TODO: провести амортизированный анализ push_back методом учёта (в отчёте).
 
 
 def main() -> None:
@@ -364,3 +363,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+# python3 lab02-recursion-structures-starter.py --variant 52
+
